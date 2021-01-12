@@ -1,9 +1,9 @@
-LIBSTD = libs/stdlib/
-LOWLEVEL = libs/lowlevel/
-LIBS = $(LIBSTD)std.lib $(LOWLEVEL)lowlevel.lib
-SRCS = hello.asm
+LIBSTD = libs/stdlib/std.lib
+LOWLEVEL = libs/lowlevel/lowlevel.lib
+LIBS = $(LIBSTD) $(LOWLEVEL)
+SRCS = core.asm demo.asm
 ASMFLAGS = -g -el -z0 -ilibs
-TARGET = hello.com
+TARGET = demo.com
 
 CLEAN = $(addsuffix .clean,$(dir $(LIBS)))
 
@@ -27,7 +27,7 @@ endif
 ASSEMBLE = $(ASM) $(DEPFLAGS) $(ASMFLAGS)
 
 $(TARGET) : $(notdir $(SRCS:asm=obj)) $(LIBS)
-	$(LINK) -sEntry -m$(@:com=sym) -o$@ -thc8c $+
+	$(LINK) -sVectors -m$(@:com=sym) -o$@ -thc8c $+
 
 %.obj : %.asm
 %.obj : %.asm $(DEPDIR)/%.d
@@ -43,7 +43,19 @@ clean : $(CLEAN)
 %.clean:
 	@$(MAKE) -C $* clean
 
-$(LIBS):
+# Make subdirs
+
+SUBDIRS = $(dir $(LIBS))
+
+subdirs: $(SUBDIRS)
+
+.PHONY: subdirs $(SUBDIRS)
+
+$(LIBS): subdirs
+
+$(SUBDIRS):
 	@$(MAKE) -C $(@D)
+
+# Include dependency info
 
 include $(wildcard $(patsubst %,$(DEPDIR)/%.d,$(basename $(notdir $(SRCS)))))
