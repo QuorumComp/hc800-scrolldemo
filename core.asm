@@ -107,12 +107,10 @@ MmuInit:
 		ld	t,BANK_ATTRIBUTE
 		lio	(bc),t
 
+		ld	t,BANK_CLIENT_CODE+0
 		ld	c,IO_MMU_SYSTEM_CODE
-		ld	t,BANK_CLIENT_CODE
 		lio	(bc),t
-
 		ld	c,IO_MMU_SYSTEM_DATA
-		ld	t,BANK_CLIENT_DATA
 		lio	(bc),t
 
 		ld	c,IO_MMU_ACTIVE_INDEX
@@ -184,7 +182,7 @@ HBlankHandler:
 		reti		
 
 
-		SECTION	"ColorTables",BSS[0]
+		SECTION	"ColorTables",BSS,ALIGN[$400]
 ColorTable1::	DS	256*2
 ColorTable2::	DS	256*2
 

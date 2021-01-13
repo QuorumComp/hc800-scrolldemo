@@ -19,7 +19,7 @@ Init::
 		jal	SetMemoryWords
 
 		ld	bc,ColorTableP
-		ld	t,0
+		ld	t,ColorTable1>>9
 		ld	(bc),t
 
 		pop	hl
