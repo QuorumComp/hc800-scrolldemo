@@ -99,18 +99,20 @@ MmuInit:
 		ld	t,1
 		lio	(bc),t
 
-		ld	c,IO_MMU_DATA_BANK2
+		ld	c,IO_MMU_CONFIGURATION
+		ld	t,0
+		lio	(bc),t
+
+		ld	c,IO_MMU_CODE_BANK2
 		ld	t,BANK_PALETTE
 		lio	(bc),t
 
-		ld	c,IO_MMU_DATA_BANK3
+		ld	c,IO_MMU_CODE_BANK3
 		ld	t,BANK_ATTRIBUTE
 		lio	(bc),t
 
-		ld	t,BANK_CLIENT_CODE+0
 		ld	c,IO_MMU_SYSTEM_CODE
-		lio	(bc),t
-		ld	c,IO_MMU_SYSTEM_DATA
+		ld	t,BANK_CLIENT_CODE+0
 		lio	(bc),t
 
 		ld	c,IO_MMU_ACTIVE_INDEX
