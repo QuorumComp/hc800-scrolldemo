@@ -134,14 +134,11 @@ VBlankHandler:
 HBlankHandler:
 		; show next color
 
-		ld	bc,nextColor
 		ld	de,$8000
-
-		ld	t,(bc)
+.color_lo	ld	t,$ff
 		ld	(de),t
-		add	bc,1
 		add	de,1
-		ld	t,(bc)
+.color_hi	ld	t,$ff
 		ld	(de),t
 
 		ld	b,IO_VIDEO_BASE
@@ -165,12 +162,12 @@ HBlankHandler:
 		add	ft,ft
 
 		ld	bc,ft
-		ld	de,nextColor
+		ld	de,.color_lo+1
 
 		ld	t,(bc)
 		ld	(de),t
 		add	bc,1
-		add	de,1
+		add	de,.color_hi-.color_lo
 		ld	t,(bc)
 		ld	(de),t
 
@@ -192,4 +189,3 @@ ColorTable2::	DS	256*2
 		SECTION	"Variables",BSS
 ColorTableP::	DS	1	; high byte of color table address to show
 vBlank:		DS	1
-nextColor:	DS	2
