@@ -28,6 +28,7 @@ ASSEMBLE = $(ASM) $(DEPFLAGS) $(ASMFLAGS)
 
 $(TARGET) : $(notdir $(SRCS:asm=obj)) $(LIBS)
 	$(LINK) -sVectors -m$(@:com=sym) -o$@ -thc8c $+
+#	$(LINK) -m$(@:com=sym) -o$@ -thc8c $+
 
 %.obj : %.asm
 %.obj : %.asm $(DEPDIR)/%.d

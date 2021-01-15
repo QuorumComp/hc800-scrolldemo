@@ -1,5 +1,6 @@
 		IMPORT	Init
 		IMPORT	ProcessStep
+		IMPORT	Cleanup
 
 		INCLUDE	"lowlevel/hc800.i"
 
@@ -67,6 +68,8 @@ Entry:
 		; Exit
 
 		di
+		jal	Cleanup
+
 		jal	MmuExit
 
 		ld	b,IO_ICTRL_BASE
