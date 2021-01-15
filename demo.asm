@@ -103,7 +103,7 @@ ProcessStep::
 		j	(hl)
 
 
-		SECTION	"ProcessStep",CODE
+		SECTION	"Cleanup",CODE
 Cleanup::
 		push	hl
 
