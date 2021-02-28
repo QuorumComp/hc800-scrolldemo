@@ -4,23 +4,23 @@
 
 		INCLUDE	"lowlevel/hc800.i"
 
+		INCLUDE	"stdlib/stream.i"
 		INCLUDE	"stdlib/syscall.i"
 
 
-		SECTION	"Vectors",CODE[0]
-Vectors::
+		SECTION	"EntryVector",CODE[0],ROOT
 		ld	ft,Entry
 		j	(ft)
 
 ; Vector $28, external interrupt handler
-		CNOP	0,$28
+		SECTION	"ExternalVector",CODE[$28],ROOT
 		pusha
 		ld	ft,HBlankHandler
 		j	(ft)
 
 
 		SECTION	"Entry",CODE
-Entry:
+Entry::
 		di
 
 		jal	MmuInit
@@ -86,8 +86,13 @@ Entry:
 		SECTION	"MmuExit",CODE
 MmuExit:
 		ld	b,IO_MMU_BASE
-		ld	c,IO_MMU_ACTIVE_INDEX
-		ld	t,2
+
+		ld	c,IO_MMU_CONFIGURATION
+		ld	t,MMU_CFG_SYS_HARVARD
+		lio	(bc),t
+
+		ld	c,IO_MMU_SYSTEM_CODE
+		ld	t,$01
 		lio	(bc),t
 
 		j	(hl)
@@ -99,7 +104,7 @@ MmuInit:
 		ld	b,IO_MMU_BASE
 
 		ld	c,IO_MMU_UPDATE_INDEX
-		ld	t,1
+		ld	t,2
 		lio	(bc),t
 
 		ld	c,IO_MMU_CONFIGURATION
@@ -119,7 +124,7 @@ MmuInit:
 		lio	(bc),t
 
 		ld	c,IO_MMU_ACTIVE_INDEX
-		ld	t,1
+		ld	t,2
 		lio	(bc),t
 
 		j	(hl)

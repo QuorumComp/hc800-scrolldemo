@@ -3,7 +3,7 @@ LOWLEVEL = libs/lowlevel/lowlevel.lib
 LIBS = $(LIBSTD) $(LOWLEVEL)
 SRCS = core.asm demo.asm
 ASMFLAGS = -g -el -z0 -ilibs
-TARGET = demo.com
+TARGET = demo
 
 CLEAN = $(addsuffix .clean,$(dir $(LIBS)))
 
@@ -27,8 +27,7 @@ endif
 ASSEMBLE = $(ASM) $(DEPFLAGS) $(ASMFLAGS)
 
 $(TARGET) : $(notdir $(SRCS:asm=obj)) $(LIBS)
-	$(LINK) -sVectors -m$(@:com=sym) -o$@ -thc8c $+
-#	$(LINK) -m$(@:com=sym) -o$@ -thc8c $+
+	$(LINK) -sEntry -m$@.sym -o$@ -thc8s $+
 
 %.obj : %.asm
 %.obj : %.asm $(DEPDIR)/%.d
