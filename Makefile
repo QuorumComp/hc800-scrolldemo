@@ -1,8 +1,10 @@
+DEBUG ?= 0
 LIBSTD = libs/stdlib/std.lib
 LOWLEVEL = libs/lowlevel/lowlevel.lib
 LIBS = $(LIBSTD) $(LOWLEVEL)
 SRCS = core.asm demo.asm
 ASMFLAGS = -g -el -z0 -ilibs
+ASMFLAGS += -D _DEBUG=$(DEBUG)
 TARGET = demo
 
 CLEAN = $(addsuffix .clean,$(dir $(LIBS)))
@@ -54,7 +56,7 @@ subdirs: $(SUBDIRS)
 $(LIBS): subdirs
 
 $(SUBDIRS):
-	@$(MAKE) -C $(@D)
+	@$(MAKE) -C $(@D) DEBUG=$(DEBUG)
 
 # Include dependency info
 

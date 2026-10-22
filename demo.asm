@@ -179,7 +179,7 @@ plotBar:
 		pusha
 
 		ld	f,0
-		add	ft,ft
+		ls	ft,1
 		add	ft,bc
 		ld	bc,ft
 
@@ -253,7 +253,7 @@ scroller:
 		rs	ft,4
 		add	t,46
 		and	t,$3F
-		add	ft,ft
+		ls	ft,1
 
 		ld	f,$C0
 		ld	(ft),e

@@ -167,7 +167,7 @@ HBlankHandler:
 		ld	bc,ColorTableP
 		ld	t,(bc)
 		exg	f,t
-		add	ft,ft
+		ls	ft,1
 
 		ld	bc,ft
 		ld	de,.color_lo+1
